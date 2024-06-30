@@ -10,7 +10,7 @@ export default function SignInPage() {
     <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-black px-4 py-12 sm:px-6 lg:px-8 text-white">
       <div className="space-y-6">
         <div className="text-center space-y-1.5">
-          <h2 className="text-xl font-medium tracking-tight">
+          <h2 className="text-xl font-bold tracking-tight">
             Sign in to your account
           </h2>
           <p>
