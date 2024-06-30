@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { cn } from "@/lib/utils";
 import "./globals.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { SessionProvider } from "next-auth/react";
 
 const fontHeading = Manrope({
   subsets: ["latin"],
@@ -26,12 +29,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={cn("antialiased", fontHeading.variable, fontBody.variable)}
-      >
-        {children}
-      </body>
-    </html>
+    <SessionProvider>
+      <html lang="en">
+        <body
+          className={cn("antialiased", fontHeading.variable, fontBody.variable)}
+        >
+          {children}
+          <ToastContainer position="bottom-right" />
+        </body>
+      </html>
+    </SessionProvider>
   );
 }

@@ -44,9 +44,22 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { signOut, useSession } from "next-auth/react";
 import { ResponsiveBar } from "@nivo/bar";
+import { useRouter } from "next/navigation";
 
 export default function DashboardPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (!session) {
+    router.push("/sign-in");
+  }
+
   return (
     <div className="flex flex-col h-full w-full">
       <header className="bg-background px-6 py-4 flex items-center justify-between border-b">
@@ -57,10 +70,10 @@ export default function DashboardPage() {
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <UserIcon className="w-4 h-4" />
-            <span>John Doe</span>
+            <span>{session?.user?.name}</span>
           </div>
         </div>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" onClick={() => signOut()}>
           Sign Out
         </Button>
       </header>

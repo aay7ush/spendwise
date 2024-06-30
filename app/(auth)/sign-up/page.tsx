@@ -1,9 +1,8 @@
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import SignUpForm from "@/components/SignUpForm";
 
 export default function SignUpPage() {
   return (
@@ -37,42 +36,7 @@ export default function SignUpPage() {
           </p>
           <span className="w-32 h-[1px] bg-neutral-800" />
         </div>
-        <form className="space-y-4">
-          <div>
-            <Label htmlFor="email" className="text-neutral-400">
-              Email
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="name@example.com"
-              className="mt-1 bg-black border border-neutral-700"
-            />
-          </div>
-          <div>
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password" className="text-neutral-400">
-                Password
-              </Label>
-              <Link
-                href="#"
-                className="text-sm font-medium text-primary-foreground hover:underline"
-                prefetch={false}
-              >
-                Forgot password?
-              </Link>
-            </div>
-            <Input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              className="mt-1 bg-black border border-neutral-700"
-            />
-          </div>
-          <Button variant="secondary" type="submit" className="w-full">
-            Sign Up
-          </Button>
-        </form>
+        <SignUpForm />
       </div>
     </div>
   );
