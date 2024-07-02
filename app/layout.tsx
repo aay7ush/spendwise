@@ -6,6 +6,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SessionProvider } from "next-auth/react";
 
+// TODO: change the font
+
 const fontHeading = Manrope({
   subsets: ["latin"],
   display: "swap",
