@@ -6,13 +6,13 @@ import { Label } from "./ui/label";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import addUserToDb from "@/actions/addUserToDb";
+import addUser from "@/actions/addUser";
 
 export default function SignUpForm() {
   const router = useRouter();
 
   const signUpUser = async (formData: FormData) => {
-    const { success, message } = await addUserToDb(formData);
+    const { success, message } = await addUser(formData);
     if (success) {
       toast.success(message);
       router.push("/sign-in");

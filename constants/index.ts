@@ -1,0 +1,25 @@
+export const CATEGORIES = {
+  income: [
+    "Salary/Wages",
+    "Freelance/Contract Work",
+    "Business Income",
+    "Investments",
+    "Rental Income",
+    "Government Benefits",
+    "Gifts Received",
+  ],
+  expense: [
+    "Housing",
+    "Transportation",
+    "Food",
+    "Personal",
+    "Entertainment",
+    "Education",
+    "Debt Payments",
+    "Credit Card",
+    "Loans",
+    "Savings/Investments",
+    "Gifts/Donations",
+    "Miscellaneous",
+  ],
+};
