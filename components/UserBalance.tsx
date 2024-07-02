@@ -1,6 +1,7 @@
 import getBalance from "@/actions/getBalance";
 import AddTransaction from "./AddTransaction";
 import formatAmount from "@/lib/formatAmount";
+import CountAmount from "./CountAmount";
 
 export default async function UserBalance() {
   const { incomes, expenses, balance } = await getBalance();
@@ -10,16 +11,16 @@ export default async function UserBalance() {
       <div className="flex items-center gap-6">
         <div className="flex flex-col items-start">
           <div className="font-medium text-muted-foreground">Total Incomes</div>
-          <div className="flex items-center gap-1 text-2xl font-bold">
-            <span className="text-green-500">{formatAmount(incomes ?? 0)}</span>
+          <div className="flex items-center gap-1 text-2xl font-bold text-green-500">
+            <CountAmount amount={balance ?? 0} />
           </div>
         </div>
         <div className="flex flex-col items-start">
           <div className="font-medium text-muted-foreground">
             Total Expenses
           </div>
-          <div className="flex items-center gap-1 text-2xl font-bold">
-            <span className="text-red-500">{formatAmount(expenses ?? 0)}</span>
+          <div className="flex items-center gap-1 text-2xl font-bold text-red-500">
+            <CountAmount amount={expenses ?? 0} />
           </div>
         </div>
         <div className="flex flex-col items-start">
@@ -27,7 +28,7 @@ export default async function UserBalance() {
             Current Balance
           </div>
           <div className="flex items-center gap-1 text-2xl font-bold">
-            <span>{formatAmount(balance ?? 0)}</span>
+            <CountAmount amount={balance ?? 0} />
           </div>
         </div>
       </div>
