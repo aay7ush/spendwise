@@ -23,6 +23,7 @@ const fontBody = Manrope({
 export const metadata: Metadata = {
   title: "Spendwise",
   description: "AI driven finance tracker app to make budgeting smarter.",
+  icons: "/wallet.svg",
 };
 
 export default function RootLayout({
