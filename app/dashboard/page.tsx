@@ -1,37 +1,37 @@
-import { Button } from "@/components/ui/button";
-import TopBar from "@/components/TopBar";
-import UserBalance from "@/components/UserBalance";
-import { AArrowUpIcon, ArrowDownWideNarrowIcon } from "lucide-react";
-import TransactionsList from "@/components/TransactionsList";
-import TransactionByCategory from "@/components/TransactionByCategory";
+import { auth } from "@/auth";
+import Balance from "@/components/balance";
+import Header from "@/components/header";
+import CategorizeTransactions from "@/components/categorize-transactions";
+import TransactionsGroup from "@/components/transactions-group";
+import { getTransactions } from "@/actions/transaction";
+import ChatAI from "@/components/chat-ai";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const session = await auth();
+
+  const transactions = await getTransactions();
+
   return (
-    <div className="flex flex-col h-full w-full">
-      <TopBar />
-      <div className="flex flex-col h-full w-full">
-        <UserBalance />
-        <main className="flex-1 overflow-auto p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold">Transactions</h2>
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
-                <AArrowUpIcon className="w-4 h-4" />
-                Sort by Date
-              </Button>
-              <Button variant="outline" size="sm">
-                <ArrowDownWideNarrowIcon className="w-4 h-4" />
-                Sort by Amount
-              </Button>
-            </div>
+    <>
+      {session?.user && (
+        <main className="flex flex-col h-full w-full">
+          <Header user={session.user} />
+
+          <div className="flex flex-col h-full w-full">
+            <Balance />
+
+            <TransactionsGroup transactions={transactions} />
+
+            <CategorizeTransactions />
           </div>
-          <TransactionsList />
+
+          <ChatAI user={session.user} transactions={transactions} />
+
+          <footer className="p-4 text-center text-muted-foreground">
+            &copy; {new Date().getFullYear()} Spendwise. All rights reserved.
+          </footer>
         </main>
-        <TransactionByCategory />
-      </div>
-      <footer className="bg-muted p-4 text-center text-sm text-muted-foreground">
-        &copy; 2024 Spendwise. All rights reserved.
-      </footer>
-    </div>
+      )}
+    </>
   );
 }
