@@ -1,7 +1,7 @@
 "use server";
 
-import getUser from "@/actions/getUser";
 import prisma from "@/prisma/db";
+import { getUser } from "./getUser";
 
 export default async function getBalance() {
   const user = await getUser();
