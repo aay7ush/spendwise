@@ -14,14 +14,15 @@ datasource db {
 }
 
 model User {
-  id            String        @id @default(cuid())
-  name          String
-  email         String        @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  accounts      Account[]
-  transactions  Transaction[]
+  id                  String               @id @default(cuid())
+  name                String
+  email               String               @unique
+  emailVerified       DateTime?
+  image               String?
+  password            String?
+  accounts            Account[]
+  transactions        Transaction[]
+  transactionAccounts TransactionAccount[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -58,12 +59,16 @@ model Transaction {
   type        TransactionType
   category    String
   description String
+  account     String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  transactionAccountId String
+  transactionAccount   TransactionAccount @relation(fields: [transactionAccountId], references: [id])
 
   @@index([userId, type, category])
   @@map("transactions")
@@ -90,4 +95,18 @@ model PasswordResetToken {
   expiresAt DateTime
 
   @@unique([email, token])
+}
+
+model TransactionAccount {
+  id   String @id @default(cuid())
+  name String
+
+  balance Float
+  income  Float @default(0)
+  expense Float @default(0)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  transactions Transaction[]
 }

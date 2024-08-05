@@ -25,18 +25,26 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { useState } from "react";
-import { toast } from "react-toastify";
+import { useMemo, useState } from "react";
 import { CATEGORIES } from "@/constants";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { addTransaction } from "@/actions/transaction";
+import { toast } from "sonner";
 
-export default function AddTransaction() {
+export default function AddTransaction({ accounts }) {
   const [description, setDescription] = useState("");
   const [createdAt, setCreatedAt] = useState(new Date());
   const [amount, setAmount] = useState(0);
   const [type, setType] = useState<"INCOME" | "EXPENSE">("EXPENSE");
   const [category, setCategory] = useState("");
+  const [account, setAccount] = useState("");
+
+  // Simplified the useMemo usage to directly find the accountId based on the selected account name
+
+  const accountId = useMemo(
+    () => accounts.find((acc) => acc.name === account)?.id,
+    [account, accounts]
+  );
 
   return (
     <Dialog>
@@ -52,6 +60,21 @@ export default function AddTransaction() {
         </DialogHeader>
         <div>
           <div className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="account">Account</Label>
+              <Select onValueChange={(e) => setAccount(e)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Account" />
+                </SelectTrigger>
+                <SelectContent>
+                  {accounts.map((account) => (
+                    <SelectItem key={account.id} value={account.name}>
+                      {account.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="description">Description</Label>
               <Input
@@ -144,6 +167,8 @@ export default function AddTransaction() {
                 amount,
                 type,
                 category,
+                account,
+                accountId,
               });
 
               if (success) {

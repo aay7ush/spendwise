@@ -12,7 +12,7 @@ export default function Amount({ title, amount }: AmountProps) {
         className={cn(
           "flex items-center gap-1 text-2xl font-bold",
           title.toLowerCase().includes("expenses") && "text-red-500",
-          title.toLowerCase().includes("incomes") && "text-green-500"
+          title.toLowerCase().includes("income") && "text-green-500"
         )}
       >
         <CountUp end={amount} decimals={2} prefix="₹" useIndianSeparators />

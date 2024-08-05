@@ -11,6 +11,8 @@ export async function addTransaction({
   amount,
   type,
   category,
+  account,
+  accountId,
 }: TransactionProps) {
   if (!description || !createdAt || !amount || !type || !category) {
     return { success: false, message: "All fields are required" };
@@ -30,7 +32,9 @@ export async function addTransaction({
         amount,
         type,
         category,
+        account,
         userId: user.id,
+        transactionAccountId: accountId,
       },
     });
     revalidatePath("/dashboard");
@@ -55,6 +59,23 @@ export async function deleteTransaction(id: string) {
     return { success: false, message: "Something went wrong" };
   }
 }
+
+export const deleteSelectedTransactions = async (ids: string[]) => {
+  try {
+    await prisma.transaction.deleteMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+    revalidatePath("/dashboard");
+    return { success: true, message: "Transactions deleted successfully" };
+  } catch (error) {
+    console.error(error);
+    return { success: false, message: "Something went wrong" };
+  }
+};
 
 export async function editTransaction({
   id,
@@ -87,6 +108,8 @@ export async function editTransaction({
 
 export async function getTransactions() {
   const user = await getUser();
+
+  if (!user) throw new Error("Unauthorized");
 
   const transactions = await prisma.transaction.findMany({
     where: {
@@ -126,20 +149,20 @@ export async function getTransactionByCategory() {
     },
   });
 
-  const expenseByCategory = expenses.reduce(
-    (acc: { category: string; amount: number }[], expense) => {
-      const existingCategory = acc.find(
-        (obj) => obj.category === expense.category
-      );
-      if (existingCategory) {
-        existingCategory.amount += expense.amount;
-      } else {
-        acc.push({ category: expense.category, amount: expense.amount });
-      }
-      return acc;
-    },
-    [] as { category: string; amount: number }[]
-  );
+  const expenseByCategory = expenses.reduce((acc, expense) => {
+    const existingCategory = acc.find(
+      (obj) => obj.category === expense.category
+    );
+    if (existingCategory) {
+      existingCategory.amount += expense.amount;
+    } else {
+      acc.push({
+        category: expense.category,
+        amount: expense.amount,
+      });
+    }
+    return acc;
+  }, [] as { category: string; amount: number }[]);
 
   const income = await prisma.transaction.findMany({
     where: {
@@ -156,7 +179,10 @@ export async function getTransactionByCategory() {
       if (existingCategory) {
         existingCategory.amount += income.amount;
       } else {
-        acc.push({ category: income.category, amount: income.amount });
+        acc.push({
+          category: income.category.toLowerCase(),
+          amount: income.amount,
+        });
       }
       return acc;
     },

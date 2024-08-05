@@ -16,7 +16,7 @@ import { Button, buttonVariants } from "./ui/button";
 import { TrashIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { deleteTransaction } from "@/actions/transaction";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 
 export default function DeleteTransaction({ id }: { id: string }) {
   return (

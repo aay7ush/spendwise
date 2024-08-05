@@ -24,8 +24,8 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Button } from "./ui/button";
-import { CalendarIcon, FilePenIcon } from "lucide-react";
-import { toast } from "react-toastify";
+import { CalendarIcon, FilePenIcon, Pencil } from "lucide-react";
+import { toast } from "sonner";
 import { useState } from "react";
 import { editTransaction } from "@/actions/transaction";
 import { CATEGORIES } from "@/constants";
@@ -48,7 +48,7 @@ export default function EditTransaction({
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size="icon" className="mr-2">
-          <FilePenIcon className="w-4 h-4" />
+          <Pencil className="w-4 h-4" />
           <span className="sr-only">Edit</span>
         </Button>
       </DialogTrigger>
